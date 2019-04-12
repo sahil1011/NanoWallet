@@ -1,0 +1,51 @@
+<div uk-grid>
+  <div class="uk-width-1-1 uk-animation-slide-left-small">
+    <div uk-grid class="uk-text-center" style="margin-bottom: 90px;">
+      <div class="uk-width-1-1" style="margin-top: 45px;">
+        <h2>Welcome to the Wallet</h2>
+      </div>
+      <div class="uk-width-1-1" *ngIf="!isConfigured()">
+        <div uk-grid>
+          <div class="uk-width-1-1" style="margin-top: 60px;">
+            <span class="uk-text-small">Configure your wallet</span>
+          </div>
+          <div class="uk-width-1-2@m">
+            <button routerLink="/configure-wallet" class="uk-button uk-button-primary uk-button-large">Create A New Wallet</button>
+          </div>
+          <div class="uk-width-1-2@m">
+            <button routerLink="/configure-wallet" [queryParams]="{ import: 1}" class="uk-button uk-button-primary uk-button-large">Import An Existing Wallet</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-width-1-1" *ngIf="isConfigured()">
+        <div uk-grid>
+          <div class="uk-width-1-1" style="margin-top: 60px;">
+           <h1> Old user</h1>
+          </div>
+          <div class="uk-width-1-1@m">
+            <button routerLink="/accounts" class="uk-button uk-button-primary uk-button-large">View your Accounts</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div uk-grid class="uk-margin-top">
+
+      <div class="uk-width-1-1@m">
+        <div class="uk-card uk-card-default uk-card-small">
+          <div class="uk-card-body">
+
+            <ul uk-accordion="">
+              <li class="uk-open">
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

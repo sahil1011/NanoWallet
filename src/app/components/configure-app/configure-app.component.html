@@ -1,0 +1,181 @@
+<div class="uk-animation-slide-left-small" uk-grid>
+  <div class="uk-width-1-1">
+    <h2>Configure BlockchainWallet</h2>
+
+    <div class="uk-card uk-card-default uk-margin">
+      <div class="uk-card-header">
+        <h3 class="uk-card-title">Display Settings</h3>
+      </div>
+      <div class="uk-card-body">
+        <div uk-grid>
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-select">FIAT Currency <span uk-icon="icon: info;" uk-tooltip title="Change the currency pair used when showing fiat values in the application.  Select None to hide fiat pairs."></span></label>
+                <div class="uk-form-controls">
+                  <select class="uk-select" [(ngModel)]="selectedCurrency" id="form-horizontal-select">
+                    <option *ngFor="let currency of currencies" [value]="currency.value">{{ currency.name }}</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">Display Denomination <span uk-icon="icon: info;" uk-tooltip title="Change the default denomination used throughout the application when displaying Nano balances"></span></label>
+                <div class="uk-form-controls">
+
+                  <div class="uk-inline uk-width-1-1">
+                    <select class="uk-select" [(ngModel)]="selectedDenomination">
+                      <option *ngFor="let denomination of denominations" [value]="denomination.value">{{ denomination.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    
+
+        </div>
+      </div>
+      <div class="uk-card-footer uk-text-right">
+        <button (click)="updateDisplaySettings()" class="uk-button uk-button-secondary">Update Display Settings</button>
+      </div>
+    </div>
+
+
+    <div class="uk-card uk-card-default uk-margin">
+      <div class="uk-card-header">
+        <h3 class="uk-card-title">Wallet Settings</h3>
+      </div>
+      <div class="uk-card-body">
+        <div uk-grid>
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">Lock After Inactivity <span uk-icon="icon: info;" uk-tooltip title="Change if your wallet should be locked automatically after you have not interacted with it for a certain period of time"></span></label>
+                <div class="uk-form-controls">
+
+                  <div class="uk-inline uk-width-1-1">
+                    <select class="uk-select" [(ngModel)]="selectedInactivityMinutes">
+                      <option *ngFor="let option of inactivityOptions" [value]="option.value">{{ option.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">Wallet Storage <span uk-icon="icon: info;" uk-tooltip title="Change where your wallet is stored.  If you select none, your wallet is reset every time you reload."></span></label>
+                <div class="uk-form-controls">
+
+                  <div class="uk-inline uk-width-1-1">
+                    <select class="uk-select" [(ngModel)]="selectedStorage">
+                      <option *ngFor="let storage of storageOptions" [value]="storage.value">{{ storage.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">PoW Source <span uk-icon="icon: info;" uk-tooltip title="Change how Proof of Work for your blocks are generated."></span></label>
+                <div class="uk-form-controls">
+
+                  <div class="uk-inline uk-width-1-1">
+                    <select class="uk-select" [(ngModel)]="selectedPoWOption">
+                      <option *ngFor="let pow of powOptions" [value]="pow.value">{{ pow.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">Minimum Receive Amount <span uk-icon="icon: info;" uk-tooltip title="Transactions below this amount will be ignored by the wallet.  Set to blank or 0 to accept all transactions."></span></label>
+                <div class="uk-form-controls">
+                  <div uk-grid>
+                    <div class="uk-width-3-5">
+                      <div class="uk-inline uk-width-1-1">
+                        <input [(ngModel)]="minimumReceive" class="uk-input uk-margin-small-bottom" id="form-horizontal-text4" type="text" placeholder="0.000001">
+                      </div>
+
+                    </div>
+
+                    <div class="uk-width-2-5">
+                      <div class="uk-inline uk-width-1-1">
+                        <button class="uk-button uk-button-primary uk-width-1-1" type="button" style="text-transform: none;">NANO</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-width-1-1">
+            <div class="uk-form-horizontal">
+
+              <div class="uk-margin">
+                <label class="uk-form-label">Default Representative <span uk-icon="icon: info;" uk-tooltip title="This representative will be used when creating the initial open block on a new account"></span></label>
+
+                <div class="uk-form-controls">
+                  <div class="uk-inline uk-width-1-1">
+                    <input (blur)="validateRepresentative()" (keyup)="searchRepresentatives()" (focus)="searchRepresentatives()" [(ngModel)]="defaultRepresentative" class="uk-input" type="text" placeholder="Leave blank to use BlockchainWallet" #repInput>
+
+                    <div *ngIf="(representativeResults$ | async).length" [hidden]="!showRepresentatives" class="uk-animation-slide-down-small uk-width-1-1 uk-card uk-card-default uk-card-body uk-position-absolute" style="z-index: 15000">
+                      <ul class="uk-nav uk-nav-default">
+                        <li class="uk-nav-header">Representative List Results</li>
+                        <li class="uk-nav-divider"></li>
+                        <li *ngFor="let rep of representativeResults$ | async">
+                          <a (click)="selectRepresentative(rep.id)">
+                            {{ rep.name }}
+                            <span *ngIf="rep.trusted" uk-icon="icon: star;" class="uk-text-success"></span>
+                            <span *ngIf="rep.warn" uk-icon="icon: warning;" class="uk-text-warning"></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-form-controls" *ngIf="representativeListMatch">
+                  <div class="uk-inline uk-width-1-1">
+                    <span class="uk-label">{{ representativeListMatch }}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="uk-card-footer uk-text-right">
+        <button (click)="updateWalletSettings()" class="uk-button uk-button-secondary">Update Wallet Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
