@@ -21,7 +21,7 @@
     "wallet:dev": "ng serve --open",
     "wallet:dev-ssl": "ng serve --open --ssl 1 --ssl-key \"assets/dev-cert/key.pem\" --ssl-cert \"assets/dev-cert/cert.pem\"",
     "wallet:build": "ng build --prod",
-    "heroku-postbuild": "ng serve",
+    "heroku-postbuild": "ng build --prod",
     "wallet:build-desktop": "ng build --env=desktop --base-href ",
     "desktop:compile": "cd desktop-app && tsc && cd ..",
     "desktop:build": "npm run wallet:build-desktop && npm run desktop:compile",
