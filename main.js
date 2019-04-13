@@ -152,7 +152,7 @@ function getApplicationMenu() {
 
   if (process.platform === 'darwin') {
     template.unshift({
-      label: 'BlockchainWallet',
+      label: 'iexchangeWallet',
       submenu: [
         {role: 'about'},
         {type: 'separator'},
